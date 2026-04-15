@@ -16,6 +16,35 @@ themeToggle.addEventListener('click', () => {
     themeToggle.innerHTML = isLight ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
 });
 
+// Animated Skill Bars
+const skillBars = document.querySelectorAll('.skill-bar');
+let skillsAnimated = false;
+
+const animateSkills = () => {
+    if (skillsAnimated) return;
+    
+    skillBars.forEach(bar => {
+        const skillLevel = bar.getAttribute('data-skill');
+        setTimeout(() => {
+            bar.style.width = skillLevel + '%';
+        }, 100);
+    });
+    
+    skillsAnimated = true;
+};
+
+const skillsSection = document.querySelector('.skills');
+if (skillsSection) {
+    const skillsObserver = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+            animateSkills();
+            skillsObserver.unobserve(skillsSection);
+        }
+    }, { threshold: 0.1 });
+    
+    skillsObserver.observe(skillsSection);
+}
+
 // Contact Form Handler
 const contactForm = document.getElementById('contactForm');
 const formMessage = document.getElementById('formMessage');
